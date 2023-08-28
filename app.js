@@ -50,7 +50,10 @@ function addItem(e) {
     // set back to default
     setToDefault();
   } else if (inputValue && editFlag) {
-    console.log("edit item");
+    editElement.innerHTML = inputValue;
+    displayAlert("value edited", "success");
+    editLocalStorage(editId, inputValue);
+    setToDefault();
   } else {
     displayAlert("Please add item", "danger");
   }
@@ -81,8 +84,15 @@ function deleteItem(e) {
   // removeFromLocalStorage(id)
 }
 
-function editItem() {
-  console.log("item edited");
+function editItem(e) {
+  const element = e.currentTarget.parentElement.parentElement;
+  // set edit item
+  editElement = e.currentTarget.parentElement.previousElementSibling;
+  // set form value
+  input.value = editElement.innerHTML;
+  editFlag = true;
+  editId = element.dataset.id;
+  submitBtn.textContent = "edit";
 }
 
 function displayAlert(text, action) {
@@ -108,6 +118,8 @@ function addToLocalStorage(id, value) {
 }
 
 function removeFromLocalStorage(id) {}
+
+function editLocalStorage(id, value) {}
 
 // ****** EVENT LISTENERS **********
 form.addEventListener("submit", addItem);
